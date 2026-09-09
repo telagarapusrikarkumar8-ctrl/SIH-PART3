@@ -611,32 +611,94 @@ function initNavigation() {
   });
 
   // Dynamic user login / logout state in header
-  const currentUser = JSON.parse(localStorage.getItem("epaddy_current_user") || "null");
+  const currentUser = (typeof Auth !== "undefined" && Auth.getUser) ? Auth.getUser() : JSON.parse(localStorage.getItem("epaddy_current_user") || "null");
   const navRightActions = document.querySelector(".gov-nav-right-actions");
   
-  if (navRightActions && currentUser) {
-    navRightActions.innerHTML = `
-      <span style="font-size:0.85rem; color:#ffffff; margin-right:8px;">
-        <strong>${currentUser.name || "Farmer"}</strong> (${currentUser.role || "Farmer"})
-      </span>
-      <a href="${currentUser.role === 'Admin' ? 'admin-dashboard.html' : 'farmer-dashboard.html'}" class="btn btn-sm btn-secondary" style="font-size:0.8rem;">
-        Dashboard
-      </a>
-      <button id="btn-logout" class="btn btn-sm btn-danger" style="font-size:0.8rem;">
-        Logout
-      </button>
-    `;
+  if (navRightActions) {
+    if (currentUser && currentUser.id) {
+      const isOfficial = (currentUser.role === "Admin" || currentUser.userRole === "official");
+      const dashboardUrl = isOfficial ? "admin-dashboard.html" : "farmer-dashboard.html";
+      const displayRole = isOfficial ? (currentUser.officialRole || "Official") : "Farmer";
 
-    const logoutBtn = document.getElementById("btn-logout");
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", () => {
-        localStorage.removeItem("epaddy_current_user");
-        showToast("Logged out successfully.", "info");
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 800);
-      });
+      if (isOfficial) {
+        navRightActions.innerHTML = `
+          <span style="font-size:0.85rem; color:#ffffff; margin-right:8px; display:inline-flex; align-items:center; gap:6px;">
+            <span>🛡️</span>
+            <span><strong>${currentUser.name || "Official"}</strong> <small style="color:#93c5fd;">(${displayRole})</small></span>
+          </span>
+          <a href="${dashboardUrl}" class="btn btn-sm btn-secondary" style="font-size:0.8rem;">
+            Admin Dashboard
+          </a>
+          <button type="button" id="btn-logout-header" class="btn btn-sm btn-danger" style="font-size:0.8rem;">
+            Logout
+          </button>
+        `;
+      } else {
+        navRightActions.innerHTML = `
+          <span style="font-size:0.85rem; color:#ffffff; margin-right:8px; display:inline-flex; align-items:center; gap:6px;">
+            <span>👤</span>
+            <span><strong>${currentUser.name || "Farmer"}</strong> <small style="color:#93c5fd;">(${displayRole})</small></span>
+          </span>
+          <a href="farmer-profile.html" class="btn btn-sm btn-outline-navy" style="background:#ffffff; color:#0c2340; border-color:#ffffff; font-size:0.8rem; font-weight:700;">
+            My Profile
+          </a>
+          <a href="${dashboardUrl}" class="btn btn-sm btn-secondary" style="font-size:0.8rem;">
+            Dashboard
+          </a>
+          <button type="button" id="btn-logout-header" class="btn btn-sm btn-danger" style="font-size:0.8rem;">
+            Logout
+          </button>
+        `;
+      }
+
+      const logoutBtn = document.getElementById("btn-logout-header");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          if (typeof Auth !== "undefined" && Auth.logout) {
+            Auth.logout("index.html");
+          } else {
+            localStorage.removeItem("epaddy_current_user");
+            localStorage.removeItem("authUser");
+            localStorage.removeItem("userRole");
+            localStorage.removeItem("isAuthenticated");
+            showToast("Logged out successfully.", "info");
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 600);
+          }
+        });
+      }
+    } else {
+      navRightActions.innerHTML = `
+        <a href="farmer-login.html" class="btn btn-sm btn-secondary nav-login-btn" data-i18n="nav.farmerLogin">Farmer Login</a>
+        <a href="official-login.html" class="btn btn-sm btn-outline-navy nav-login-btn" style="background:#ffffff; color:#0c2340; border-color:#ffffff;" data-i18n="nav.officialLogin">Official Login</a>
+      `;
     }
+  }
+
+  // Intercept all "Book Slot" buttons / links on normal pages
+  if (currentPath !== "slot-booking.html") {
+    const bookLinks = document.querySelectorAll('a[href*="slot-booking.html"], .btn-book-slot');
+    bookLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        if (typeof Auth !== "undefined") {
+          const href = link.getAttribute("href") || "";
+          let centreId = "";
+          if (href.includes("centre=")) {
+            centreId = href.split("centre=")[1]?.split("&")[0] || "";
+          }
+          if (!Auth.isAuthenticated() || Auth.getRole() !== "farmer") {
+            e.preventDefault();
+            Auth.handleBookSlot(e, centreId);
+          }
+        }
+      });
+    });
+  }
+
+  // Ensure login required modal is available
+  if (typeof Auth !== "undefined" && Auth.injectLoginRequiredModal) {
+    Auth.injectLoginRequiredModal();
   }
 }
 
@@ -646,3 +708,4 @@ document.addEventListener("DOMContentLoaded", () => {
   initAccessibility();
   initNavigation();
 });
+

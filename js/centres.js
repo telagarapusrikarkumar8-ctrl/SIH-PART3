@@ -76,7 +76,7 @@ function renderCentresTable(centres) {
           <a href="centre-details.html?id=${centre.id}" class="btn btn-sm btn-secondary">
             View Details
           </a>
-          <a href="slot-booking.html?centre=${centre.id}" class="btn btn-sm btn-success">
+          <a href="slot-booking.html?centre=${centre.id}" class="btn btn-sm btn-success btn-book-slot" onclick="if(typeof Auth!=='undefined'){return Auth.handleBookSlot(event, '${centre.id}');}">
             Book Slot
           </a>
         </div>
@@ -183,6 +183,11 @@ function loadCentreDetails() {
   const bookBtn = document.getElementById("btn-book-this-centre");
   if (bookBtn) {
     bookBtn.setAttribute("href", `slot-booking.html?centre=${centre.id}`);
+    bookBtn.onclick = (e) => {
+      if (typeof Auth !== "undefined") {
+        return Auth.handleBookSlot(e, centre.id);
+      }
+    };
   }
 }
 
@@ -194,3 +199,4 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCentreDetails();
   }
 });
+

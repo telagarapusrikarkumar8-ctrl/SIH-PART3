@@ -78,7 +78,7 @@
       </button>
       <ul id="main-nav-menu" class="gov-nav-menu">
         <li class="gov-nav-item"><a href="index.html" class="gov-nav-link active" data-i18n="nav.home">Home</a></li>
-        <li class="gov-nav-item"><a href="farmer-registration.html" class="gov-nav-link" data-i18n="nav.farmers">Farmers</a></li>
+        <li class="gov-nav-item"><a href="farmers.html" class="gov-nav-link" data-i18n="nav.farmers">Farmers</a></li>
         <li class="gov-nav-item"><a href="procurement-centres.html" class="gov-nav-link" data-i18n="nav.centres">Procurement Centres</a></li>
         <li class="gov-nav-item"><a href="slot-booking.html" class="gov-nav-link" data-i18n="nav.schedule">Schedule</a></li>
         <li class="gov-nav-item"><a href="procurement-status.html" class="gov-nav-link" data-i18n="nav.procurementStatus">Procurement Status</a></li>
@@ -88,7 +88,7 @@
       </ul>
       <div class="gov-nav-right-actions">
         <a href="farmer-login.html" class="btn btn-sm btn-secondary nav-login-btn" data-i18n="nav.farmerLogin">Farmer Login</a>
-        <a href="admin-login.html" class="btn btn-sm btn-outline-navy nav-login-btn" style="background:#ffffff; color:#0c2340; border-color:#ffffff;" data-i18n="nav.officialLogin">Official Login</a>
+        <a href="official-login.html" class="btn btn-sm btn-outline-navy nav-login-btn" style="background:#ffffff; color:#0c2340; border-color:#ffffff;" data-i18n="nav.officialLogin">Official Login</a>
       </div>
     </div>
   </nav>
@@ -122,7 +122,7 @@
             <a href="farmer-login.html" class="btn btn-lg btn-success" data-i18n="hero.btnLogin">
               Farmer Login
             </a>
-            <a href="farmer-registration.html" class="btn btn-lg btn-secondary" style="background: #ffffff; color: var(--gov-navy-dark); font-weight: 700;" data-i18n="hero.btnRegister">
+            <a href="farmer-register.html" class="btn btn-lg btn-secondary" style="background: #ffffff; color: var(--gov-navy-dark); font-weight: 700;" data-i18n="hero.btnRegister">
               Register as Farmer
             </a>
             <a href="procurement-centres.html" class="btn btn-lg btn-outline-navy" style="background-color: #ffffff; color: var(--agri-green-primary);border-color: var(--agri-green-primary);" data-i18n="hero.btnFindCentre">
@@ -180,7 +180,7 @@
               <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
                 New farmers can register with Aadhaar, Krishak Bandhu/Farmer ID, and land parcel details.
               </p>
-              <a href="farmer-registration.html" class="btn btn-sm btn-outline-navy btn-block">Apply for Registration</a>
+              <a href="farmer-register.html" class="btn btn-sm btn-outline-navy btn-block">Apply for Registration</a>
             </div>
           </div>
 
@@ -204,7 +204,7 @@
               <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
                 Schedule convenient date and time to deliver harvested paddy without long queues.
               </p>
-              <a href="slot-booking.html" class="btn btn-sm btn-primary btn-block">Book Token Slot</a>
+              <a href="slot-booking.html" class="btn btn-sm btn-primary btn-block btn-book-slot">Book Token Slot</a>
             </div>
           </div>
 
@@ -467,6 +467,7 @@
 
   <!-- Scripts -->
   <script src="js/language.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

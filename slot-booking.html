@@ -108,7 +108,7 @@
       </button>
       <ul id="main-nav-menu" class="gov-nav-menu">
         <li class="gov-nav-item"><a href="index.html" class="gov-nav-link" data-i18n="nav.home">Home</a></li>
-        <li class="gov-nav-item"><a href="farmer-registration.html" class="gov-nav-link" data-i18n="nav.farmers">Farmers</a></li>
+        <li class="gov-nav-item"><a href="farmers.html" class="gov-nav-link" data-i18n="nav.farmers">Farmers</a></li>
         <li class="gov-nav-item"><a href="procurement-centres.html" class="gov-nav-link" data-i18n="nav.centres">Procurement Centres</a></li>
         <li class="gov-nav-item"><a href="slot-booking.html" class="gov-nav-link active" data-i18n="nav.schedule">Schedule</a></li>
         <li class="gov-nav-item"><a href="procurement-status.html" class="gov-nav-link" data-i18n="nav.procurementStatus">Procurement Status</a></li>
@@ -116,7 +116,8 @@
         <li class="gov-nav-item"><a href="grievance.html" class="gov-nav-link" data-i18n="nav.grievance">Grievance</a></li>
       </ul>
       <div class="gov-nav-right-actions">
-        <a href="farmer-dashboard.html" class="btn btn-sm btn-secondary">Farmer Dashboard</a>
+        <a href="farmer-login.html" class="btn btn-sm btn-secondary nav-login-btn" data-i18n="nav.farmerLogin">Farmer Login</a>
+        <a href="official-login.html" class="btn btn-sm btn-outline-navy nav-login-btn" style="background:#ffffff; color:#0c2340; border-color:#ffffff;" data-i18n="nav.officialLogin">Official Login</a>
       </div>
     </div>
   </nav>
@@ -298,13 +299,21 @@
           An automated verification code has been dispatched to your registered mobile:
         </p>
         <strong id="booking-otp-mobile" style="color: var(--gov-navy-primary); font-size: 1.1rem;">XXXX-XX-8921</strong>
-        
-        <div class="alert alert-info mt-2" style="font-size: 0.82rem;">
-          <strong>Demo Code:</strong> Enter <strong>123456</strong> to finalize slot reservation.
+
+        <div class="alert alert-info mt-2 mb-2 text-start" style="font-size: 0.82rem; border-left: 3px solid #0284c7; background: #f0f9ff; padding: 8px 12px; border-radius: 4px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+            <div>
+              <span style="font-weight: 600; color: #0369a1;">⚡ Confirmation OTP:</span>
+              <strong style="font-size: 1rem; color: #0c4a6e; letter-spacing: 2px; margin-left: 4px;">123456</strong>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" style="padding: 3px 10px; font-size: 0.78rem; border-radius: 4px;" onclick="document.getElementById('booking-otp-input').value = '123456'; document.getElementById('booking-otp-input').focus();">
+              Auto-Fill OTP
+            </button>
+          </div>
         </div>
 
         <div style="max-width: 220px; margin: 16px auto;">
-          <input type="text" id="booking-otp-input" class="form-control text-center" maxlength="6" placeholder="Enter 6-digit OTP" style="font-size: 1.4rem; font-weight: 700; letter-spacing: 4px;" value="123456">
+          <input type="text" id="booking-otp-input" class="form-control text-center" maxlength="6" placeholder="Enter 6-digit OTP" style="font-size: 1.4rem; font-weight: 700; letter-spacing: 4px;">
         </div>
       </div>
       <div class="modal-footer">
@@ -326,6 +335,7 @@
 
   <!-- Scripts -->
   <script src="js/language.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
   <script src="js/booking.js"></script>
 </body>

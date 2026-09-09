@@ -22,9 +22,25 @@ let bookingData = {
 
 function initSlotBooking() {
   const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
-  const currentUser = JSON.parse(localStorage.getItem("epaddy_current_user") || "null");
+  const isAuth = typeof Auth !== "undefined" ? Auth.isAuthenticated() : false;
+  const userRole = typeof Auth !== "undefined" ? Auth.getRole() : null;
+  const currentUser = typeof Auth !== "undefined" ? Auth.getUser() : JSON.parse(localStorage.getItem("epaddy_current_user") || "null");
 
-  if (currentUser && currentUser.role === "Farmer") {
+  // Authentication check for booking page
+  if (!isAuth) {
+    sessionStorage.setItem("auth_return_url", window.location.href);
+    if (typeof Auth !== "undefined" && Auth.showLoginRequiredModal) {
+      setTimeout(() => {
+        Auth.showLoginRequiredModal("You must login as a farmer to continue booking a procurement slot.", "farmer-login.html");
+      }, 100);
+    }
+  } else if (userRole === "official") {
+    if (typeof showToast === "function") {
+      showToast("Farmer login required. You are currently signed in as a Departmental Official.", "warning", 5000);
+    }
+  }
+
+  if (currentUser && (currentUser.role === "Farmer" || currentUser.userRole === "farmer")) {
     selectedFarmer = farmers.find((f) => f.id === currentUser.id) || farmers[0];
   } else if (farmers.length > 0) {
     selectedFarmer = farmers[0];
@@ -338,13 +354,13 @@ function openBookingOtpModal() {
     phoneDisplay.textContent = `XXXX-XX-${bookingData.mobile.slice(-4)}`;
   }
   openModal("booking-otp-modal");
-  showToast("Mock OTP for booking sent to linked mobile. (Demo OTP: 123456)", "info");
+  showToast("OTP for booking sent to registered mobile.", "info");
 }
 
 function verifyBookingOtpAndConfirm() {
   const otp = document.getElementById("booking-otp-input")?.value.trim();
-  if (!otp || (otp !== "123456" && otp.length !== 6)) {
-    showToast("Invalid OTP. Enter 123456 to verify.", "danger");
+  if (!otp || otp.length !== 6) {
+    showToast("Invalid OTP. Please enter 6-digit OTP to verify.", "danger");
     return;
   }
 

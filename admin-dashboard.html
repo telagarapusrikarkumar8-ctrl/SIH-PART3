@@ -100,7 +100,7 @@
         <li class="gov-nav-item"><a href="index.html" class="gov-nav-link">Public Portal</a></li>
       </ul>
       <div class="gov-nav-right-actions">
-        <a href="index.html" class="btn btn-sm btn-danger">Exit Admin Mode</a>
+        <button type="button" class="btn btn-sm btn-danger" onclick="if(typeof Auth!=='undefined'){Auth.logout('index.html');}else{window.location.href='index.html';}">Exit Admin Mode / Logout</button>
       </div>
     </div>
   </nav>
@@ -289,6 +289,7 @@
 
   <!-- Scripts -->
   <script src="js/language.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
   <script src="js/admin.js"></script>
 </body>

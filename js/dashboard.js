@@ -5,14 +5,44 @@
 
 let activeFarmer = null;
 
-function loadFarmerDashboard() {
-  const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
+async function loadFarmerDashboard() {
   const currentUser = JSON.parse(localStorage.getItem("epaddy_current_user") || "null");
+  const token = localStorage.getItem("authToken");
 
-  if (currentUser && currentUser.role === "Farmer") {
-    activeFarmer = farmers.find((f) => f.id === currentUser.id) || farmers[0];
-  } else if (farmers.length > 0) {
-    activeFarmer = farmers[0]; // Default to Ramesh Kumar demo
+  // Attempt to fetch fresh profile from backend API
+  if (token) {
+    try {
+      const apiBase = typeof API_BASE !== "undefined" ? API_BASE : "http://localhost:5000/api";
+      const res = await fetch(`${apiBase}/farmers/me`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.farmer) {
+        activeFarmer = {
+          ...data.farmer,
+          id: data.farmer.registrationNumber,
+          name: data.farmer.fullName,
+          mobile: data.farmer.mobileNumber
+        };
+      }
+    } catch (err) {
+      console.warn("Backend fetch failed, falling back to local session:", err);
+    }
+  }
+
+  if (!activeFarmer && currentUser) {
+    activeFarmer = {
+      id: currentUser.id || currentUser.registrationNumber,
+      name: currentUser.name || currentUser.fullName,
+      mobile: currentUser.mobile || currentUser.mobileNumber,
+      district: currentUser.district || "Guntur",
+      mandal: currentUser.mandal || "Tenali",
+      status: "Verified",
+      currentStage: 3
+    };
   }
 
   if (!activeFarmer) return;

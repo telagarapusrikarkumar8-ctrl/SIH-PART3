@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Farmer Land Records & Bank Particulars - Online Paddy Procurement System, Department of Civil Supplies, Government of Andhra Pradesh. Manage land location, survey parcels, and DBT bank account details.">
+  <title>Farmers | Land Records &amp; Bank Particulars | Online Paddy Procurement System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/government.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Top Tricolor Stripe -->
+  <div class="gov-top-tricolor" aria-hidden="true"></div>
+
+  <!-- Government Top Admin Strip -->
+  <div class="gov-top-bar">
+    <div class="container gov-top-bar-content">
+      <div class="gov-entity-links">
+        <span class="gov-entity-link" data-i18n="gov.india">Government of India</span>
+        <span style="color: rgba(255,255,255,0.3);">|</span>
+        <span class="gov-entity-link" data-i18n="gov.state">Government of Andhra Pradesh</span>
+      </div>
+      <div class="gov-accessibility-controls">
+        <button type="button" id="btn-font-small" class="a11y-btn" aria-label="Decrease Text Size">A-</button>
+        <button type="button" id="btn-font-normal" class="a11y-btn" aria-label="Reset Text Size">A</button>
+        <button type="button" id="btn-font-large" class="a11y-btn" aria-label="Increase Text Size">A+</button>
+        <button type="button" id="btn-contrast-toggle" class="contrast-toggle-btn" aria-label="Toggle High Contrast">Contrast</button>
+        <div class="lang-select-wrapper">
+          <label for="header-lang-select" class="sr-only" style="position: absolute; left: -9999px;">Language</label>
+          <select id="header-lang-select" class="lang-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="te">తెలుగు (Telugu)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Department Branding Header -->
+  <header class="gov-branding-header">
+    <div class="container gov-branding-content">
+      <a href="index.html" class="gov-branding-left">
+        <img src="assets/images/national-emblem.svg" alt="National Emblem of India" class="gov-emblem-img">
+        <div class="gov-title-group">
+          <span class="gov-state-title" data-i18n="gov.state">Government of Andhra Pradesh</span>
+          <span class="gov-dept-title" data-i18n="gov.dept">Department of Civil Supplies</span>
+          <span class="gov-portal-title" data-i18n="gov.portal">Online Paddy Procurement System</span>
+        </div>
+      </a>
+      <div class="gov-branding-right">
+        <div class="gov-helpline-box">
+          <div class="helpline-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM19 12h2a9 9 0 0 0-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2a5 5 0 0 0-5-5v2c1.66 0 3 1.34 3 3z"/>
+            </svg>
+          </div>
+          <div class="helpline-text">
+            <span class="helpline-label" data-i18n="gov.helpline">Toll Free Helpline</span>
+            <a href="tel:1967" class="helpline-number">1967 / 1800-425-0082</a>
+          </div>
+        </div>
+        <img src="assets/images/state-logo.svg" alt="Civil Supplies Seal" class="gov-state-logo-img">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="gov-nav-bar" aria-label="Main Navigation">
+    <div class="container gov-nav-container">
+      <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="main-nav-menu" aria-label="Toggle Navigation Menu">
+        ☰ Menu
+      </button>
+      <ul id="main-nav-menu" class="gov-nav-menu">
+        <li class="gov-nav-item"><a href="index.html" class="gov-nav-link" data-i18n="nav.home">Home</a></li>
+        <li class="gov-nav-item"><a href="farmers.html" class="gov-nav-link active" data-i18n="nav.farmers">Farmers</a></li>
+        <li class="gov-nav-item"><a href="procurement-centres.html" class="gov-nav-link" data-i18n="nav.centres">Procurement Centres</a></li>
+        <li class="gov-nav-item"><a href="slot-booking.html" class="gov-nav-link" data-i18n="nav.schedule">Schedule</a></li>
+        <li class="gov-nav-item"><a href="procurement-status.html" class="gov-nav-link" data-i18n="nav.procurementStatus">Procurement Status</a></li>
+        <li class="gov-nav-item"><a href="payment-status.html" class="gov-nav-link" data-i18n="nav.paymentStatus">Payment Status</a></li>
+        <li class="gov-nav-item"><a href="grievance.html" class="gov-nav-link" data-i18n="nav.grievance">Grievance</a></li>
+        <li class="gov-nav-item"><a href="schedule-status.html" class="gov-nav-link" data-i18n="nav.help">Help</a></li>
+      </ul>
+      <div class="gov-nav-right-actions">
+        <a href="farmer-login.html" class="btn btn-sm btn-secondary nav-login-btn" data-i18n="nav.farmerLogin">Farmer Login</a>
+        <a href="official-login.html" class="btn btn-sm btn-outline-navy nav-login-btn" style="background:#ffffff; color:#0c2340; border-color:#ffffff;" data-i18n="nav.officialLogin">Official Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumb-wrapper">
+    <div class="container">
+      <ul class="breadcrumbs">
+        <li><a href="index.html">Home</a></li>
+        <li>Farmers</li>
+        <li class="current">Land &amp; Bank Details Particulars</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" style="padding: 30px 0;">
+    <div class="container">
+      
+      <!-- Top Banner / Identity Section -->
+      <div class="card" style="box-shadow: var(--shadow-card); border-top: 4px solid var(--agri-green-primary); margin-bottom: 24px;">
+        <div class="card-header d-flex justify-between align-center flex-wrap gap-2" style="background: #f8fafc;">
+          <div>
+            <h2 style="font-size: 1.3rem; margin-bottom: 2px; color: var(--gov-navy-dark);">
+              🌾 Farmer Land Records &amp; Bank Account Particulars
+            </h2>
+            <span style="font-size: 0.82rem; color: var(--text-muted);">
+              Manage agricultural land holding parcels, geographical locations, and DBT direct bank settlement particulars (KMS 2026-27).
+            </span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-sm btn-secondary" onclick="loadSampleFarmer('FMR-AP-2026-7821')">
+              Load Ramesh Kumar
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="loadSampleFarmer('FMR-AP-2026-4412')">
+              Load Lakshmi Devi
+            </button>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          <div id="farmer-active-banner" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 700; color: #15803d; text-transform: uppercase;">
+                Active Farmer Record
+              </div>
+              <strong id="farmer-display-name" style="font-size: 1.15rem; color: #166534;">Ramesh Kumar</strong>
+              <span id="farmer-display-id" style="font-family: var(--font-mono); color: #15803d; margin-left: 8px;">(FMR-AP-2026-7821)</span>
+              <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+                Linked Mobile: <span id="farmer-display-mobile">9876543210</span> | UIDAI Aadhaar: <span id="farmer-display-aadhaar">XXXX-XXXX-8921</span>
+              </div>
+            </div>
+            <div>
+              <span class="badge badge-success" style="font-size: 0.82rem;">e-Record Verified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Particulars Form -->
+      <form id="farmer-land-bank-form" onsubmit="saveFarmerLandBankDetails(event)">
+
+        <!-- 1. Land Location & Residential Address -->
+        <div class="card" style="box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <div class="card-header" style="background: #f8fafc; border-bottom: 1px solid var(--border-color);">
+            <h3 style="font-size: 1.1rem; color: var(--gov-navy-primary); display: flex; align-items: center; gap: 8px; margin: 0;">
+              <span>📍</span> 1. Land Location &amp; Residential Particulars
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="grid-3">
+              <div class="form-group">
+                <label for="land-district" class="form-label">Revenue District <span class="required">*</span></label>
+                <select id="land-district" class="form-control" required>
+                  <option value="Guntur">Guntur District</option>
+                  <option value="Krishna">Krishna District</option>
+                  <option value="West Godavari">West Godavari District</option>
+                  <option value="East Godavari">East Godavari District</option>
+                  <option value="Kurnool">Kurnool District</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="land-mandal" class="form-label">Mandal / Tehsil <span class="required">*</span></label>
+                <input type="text" id="land-mandal" class="form-control" placeholder="e.g. Tenali" value="Tenali" required>
+              </div>
+              <div class="form-group">
+                <label for="land-panchayat" class="form-label">Gram Panchayat <span class="required">*</span></label>
+                <input type="text" id="land-panchayat" class="form-control" placeholder="e.g. Angalakuduru" value="Angalakuduru" required>
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div class="form-group">
+                <label for="land-village" class="form-label">Revenue Village <span class="required">*</span></label>
+                <input type="text" id="land-village" class="form-control" placeholder="e.g. Angalakuduru" value="Angalakuduru" required>
+              </div>
+              <div class="form-group">
+                <label for="land-pincode" class="form-label">PIN Code <span class="required">*</span></label>
+                <input type="text" id="land-pincode" class="form-control" placeholder="e.g. 522211" maxlength="6" value="522211" required>
+              </div>
+              <div class="form-group">
+                <label for="land-habitation" class="form-label">Habitation / Street</label>
+                <input type="text" id="land-habitation" class="form-control" placeholder="e.g. Main Road, Ward 4" value="Bazaar Street, Ward 2">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Land Parcels & Cultivated Area -->
+        <div class="card" style="box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <div class="card-header d-flex justify-between align-center" style="background: #f8fafc; border-bottom: 1px solid var(--border-color);">
+            <h3 style="font-size: 1.1rem; color: var(--gov-navy-primary); display: flex; align-items: center; gap: 8px; margin: 0;">
+              <span>🌱</span> 2. Land Parcels &amp; Cultivation Records
+            </h3>
+            <span class="badge badge-info" id="total-acres-badge">Total: 5.50 Acres</span>
+          </div>
+          <div class="card-body">
+            
+            <!-- Add New Land Parcel Input Grid -->
+            <div style="background: #f1f5f9; padding: 16px; border-radius: var(--radius-sm); border: 1px dashed #cbd5e1; margin-bottom: 20px;">
+              <strong style="font-size: 0.88rem; color: var(--gov-navy-dark); display: block; margin-bottom: 12px;">
+                + Add Land Parcel (Survey Details)
+              </strong>
+              <div class="grid-4">
+                <div class="form-group mb-1">
+                  <label for="new-parcel-survey" class="form-label">Survey / Sub-div No</label>
+                  <input type="text" id="new-parcel-survey" class="form-control" placeholder="e.g. 142/2A">
+                </div>
+                <div class="form-group mb-1">
+                  <label for="new-parcel-dag" class="form-label">Khata / Patta No</label>
+                  <input type="text" id="new-parcel-dag" class="form-control" placeholder="e.g. 45">
+                </div>
+                <div class="form-group mb-1">
+                  <label for="new-parcel-acres" class="form-label">Cultivated Area (Acres)</label>
+                  <input type="number" step="0.1" id="new-parcel-acres" class="form-control" placeholder="e.g. 2.5">
+                </div>
+                <div class="form-group mb-1">
+                  <label for="new-parcel-ownership" class="form-label">Ownership Type</label>
+                  <select id="new-parcel-ownership" class="form-control">
+                    <option value="Self Owned">Self Owned</option>
+                    <option value="Tenant / Lease">Tenant / Lease</option>
+                    <option value="Shared Cropper">Shared Cropper</option>
+                  </select>
+                </div>
+              </div>
+              <div class="text-right mt-1">
+                <button type="button" class="btn btn-sm btn-primary" onclick="addNewLandParcel()">
+                  + Add Parcel to Table
+                </button>
+              </div>
+            </div>
+
+            <!-- Land Parcels Table -->
+            <div class="table-responsive">
+              <table class="gov-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Survey No</th>
+                    <th>Khata No</th>
+                    <th>Area (Acres)</th>
+                    <th>Ownership</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="land-parcels-tbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. Direct Benefit Transfer (DBT) Bank Particulars -->
+        <div class="card" style="box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <div class="card-header" style="background: #f8fafc; border-bottom: 1px solid var(--border-color);">
+            <h3 style="font-size: 1.1rem; color: var(--gov-navy-primary); display: flex; align-items: center; gap: 8px; margin: 0;">
+              <span>💳</span> 3. Direct Benefit Transfer (DBT) Bank Account Particulars
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-info mb-2" style="font-size: 0.82rem;">
+              <strong>PFMS / e-Kuber Mandate:</strong> Minimum Support Price (MSP) payments are directly credited to this Aadhaar-linked account within 24-48 hours of weighment.
+            </div>
+            
+            <div class="grid-3">
+              <div class="form-group">
+                <label for="bank-name" class="form-label">Bank Name <span class="required">*</span></label>
+                <input type="text" id="bank-name" class="form-control" placeholder="e.g. State Bank of India" value="State Bank of India" required>
+              </div>
+              <div class="form-group">
+                <label for="bank-branch" class="form-label">Branch Name <span class="required">*</span></label>
+                <input type="text" id="bank-branch" class="form-control" placeholder="e.g. Tenali Main Branch" value="Tenali Main Branch" required>
+              </div>
+              <div class="form-group">
+                <label for="bank-ifsc" class="form-label">IFSC Code <span class="required">*</span></label>
+                <input type="text" id="bank-ifsc" class="form-control" placeholder="e.g. SBIN0000928" value="SBIN0000928" style="text-transform: uppercase;" required>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="bank-acc-no" class="form-label">Bank Account Number <span class="required">*</span></label>
+                <input type="password" id="bank-acc-no" class="form-control" placeholder="Enter bank account number" value="309812454819" required>
+              </div>
+              <div class="form-group">
+                <label for="bank-confirm-acc-no" class="form-label">Confirm Bank Account Number <span class="required">*</span></label>
+                <input type="text" id="bank-confirm-acc-no" class="form-control" placeholder="Re-enter bank account number" value="309812454819" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Preferred Procurement Centre -->
+        <div class="card" style="box-shadow: var(--shadow-card); margin-bottom: 24px;">
+          <div class="card-header" style="background: #f8fafc; border-bottom: 1px solid var(--border-color);">
+            <h3 style="font-size: 1.1rem; color: var(--gov-navy-primary); display: flex; align-items: center; gap: 8px; margin: 0;">
+              <span>🏢</span> 4. Preferred Procurement Point Allotment
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="farmer-centre-select" class="form-label">Assigned Paddy Procurement Centre (PPC / RBK) <span class="required">*</span></label>
+              <select id="farmer-centre-select" class="form-control" required>
+                <option value="PPC-GNT-001">Tenali Agricultural Market Yard PPC (Guntur) - Capacity: 400 Qtl/day</option>
+                <option value="PPC-GNT-002">Bapatla PACS Procurement Centre (Guntur) - Capacity: 300 Qtl/day</option>
+                <option value="PPC-KRI-001">Gudivada Rythu Bharosa Kendra (Krishna) - Capacity: 350 Qtl/day</option>
+                <option value="PPC-WG-001">Bhimavaram Civil Supplies Godown (W. Godavari) - Capacity: 500 Qtl/day</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 40px;">
+          <a href="index.html" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-success btn-lg" style="padding: 12px 30px;">
+            💾 Save &amp; Update Land &amp; Bank Records
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </main>
+
+  <!-- Government Footer -->
+  <footer class="gov-footer">
+    <div class="container gov-footer-bottom">
+      <p style="margin: 0; font-size: 0.76rem;">
+        Website Content Managed by <strong>Department of Civil Supplies, Government of Andhra Pradesh</strong>.<br>
+        Designed, Developed and Hosted by <strong>National Informatics Centre (NIC)</strong>.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/language.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let currentFarmerData = null;
+    let currentLandParcels = [
+      { id: 1, surveyNo: "142/2A", dagNo: "45", areaAcres: 3.5, ownership: "Self Owned", verified: true },
+      { id: 2, surveyNo: "143/1B", dagNo: "48", areaAcres: 2.0, ownership: "Tenant / Lease", verified: true }
+    ];
+
+    function initFarmerParticularsPage() {
+      const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
+      const currentUser = Auth.getUser();
+
+      if (currentUser && (currentUser.role === "Farmer" || currentUser.userRole === "farmer")) {
+        currentFarmerData = farmers.find(f => f.id === currentUser.id) || farmers[0];
+      } else if (farmers.length > 0) {
+        currentFarmerData = farmers[0];
+      }
+
+      if (currentFarmerData) {
+        populateFarmerFields(currentFarmerData);
+      } else {
+        renderLandTable();
+      }
+    }
+
+    function loadSampleFarmer(farmerId) {
+      const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
+      const farmer = farmers.find(f => f.id === farmerId);
+      if (farmer) {
+        currentFarmerData = farmer;
+        populateFarmerFields(farmer);
+        showToast(`Loaded particulars for ${farmer.name} (${farmer.id})`, "info");
+      }
+    }
+
+    function populateFarmerFields(farmer) {
+      document.getElementById("farmer-display-name").textContent = farmer.name;
+      document.getElementById("farmer-display-id").textContent = `(${farmer.id})`;
+      document.getElementById("farmer-display-mobile").textContent = farmer.mobile;
+      document.getElementById("farmer-display-aadhaar").textContent = farmer.aadhaarMasked || `XXXX-XXXX-${farmer.aadhaar ? farmer.aadhaar.slice(-4) : "8921"}`;
+
+      document.getElementById("land-district").value = farmer.district || "Guntur";
+      document.getElementById("land-mandal").value = farmer.mandal || "Tenali";
+      document.getElementById("land-panchayat").value = farmer.panchayat || "Angalakuduru";
+      document.getElementById("land-village").value = farmer.village || "Angalakuduru";
+      document.getElementById("land-pincode").value = farmer.pincode || "522211";
+
+      if (farmer.bank) {
+        document.getElementById("bank-name").value = farmer.bank.bankName || "State Bank of India";
+        document.getElementById("bank-branch").value = farmer.bank.branch || "Tenali Main Branch";
+        document.getElementById("bank-ifsc").value = farmer.bank.ifsc || "SBIN0000928";
+        document.getElementById("bank-acc-no").value = farmer.bank.accountNumber || "309812454819";
+        document.getElementById("bank-confirm-acc-no").value = farmer.bank.accountNumber || "309812454819";
+      }
+
+      if (farmer.preferredCentreId) {
+        const sel = document.getElementById("farmer-centre-select");
+        if (sel) sel.value = farmer.preferredCentreId;
+      }
+
+      if (farmer.lands && Array.isArray(farmer.lands) && farmer.lands.length > 0) {
+        currentLandParcels = farmer.lands;
+      }
+      renderLandTable();
+    }
+
+    function renderLandTable() {
+      const tbody = document.getElementById("land-parcels-tbody");
+      if (!tbody) return;
+
+      tbody.innerHTML = "";
+      let totalAcres = 0;
+
+      currentLandParcels.forEach((parcel, index) => {
+        const acres = parseFloat(parcel.areaAcres || 0);
+        totalAcres += acres;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td><strong>${parcel.surveyNo || "-"}</strong></td>
+          <td>${parcel.dagNo || "-"}</td>
+          <td>${acres.toFixed(2)} Acres</td>
+          <td><span class="badge badge-info">${parcel.ownership || "Self Owned"}</span></td>
+          <td><span class="badge badge-success">Verified</span></td>
+          <td>
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeLandParcel(${index})">
+              ✕ Remove
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const badge = document.getElementById("total-acres-badge");
+      if (badge) badge.textContent = `Total: ${totalAcres.toFixed(2)} Acres`;
+    }
+
+    function addNewLandParcel() {
+      const survey = document.getElementById("new-parcel-survey").value.trim();
+      const dag = document.getElementById("new-parcel-dag").value.trim() || "-";
+      const acres = parseFloat(document.getElementById("new-parcel-acres").value);
+      const ownership = document.getElementById("new-parcel-ownership").value;
+
+      if (!survey || isNaN(acres) || acres <= 0) {
+        showToast("Please enter a valid Survey Number and positive Area in Acres.", "danger");
+        return;
+      }
+
+      currentLandParcels.push({
+        id: Date.now(),
+        surveyNo: survey,
+        dagNo: dag,
+        areaAcres: acres,
+        ownership: ownership,
+        verified: true
+      });
+
+      document.getElementById("new-parcel-survey").value = "";
+      document.getElementById("new-parcel-dag").value = "";
+      document.getElementById("new-parcel-acres").value = "";
+
+      renderLandTable();
+      showToast("New land parcel record added.", "success");
+    }
+
+    function removeLandParcel(index) {
+      currentLandParcels.splice(index, 1);
+      renderLandTable();
+      showToast("Land parcel removed.", "info");
+    }
+
+    function saveFarmerLandBankDetails(event) {
+      if (event) event.preventDefault();
+
+      const accNo = document.getElementById("bank-acc-no").value.trim();
+      const confirmAccNo = document.getElementById("bank-confirm-acc-no").value.trim();
+
+      if (accNo !== confirmAccNo) {
+        showToast("Bank Account Number and Confirm Account Number do not match.", "danger");
+        return;
+      }
+
+      if (currentLandParcels.length === 0) {
+        showToast("Please add at least one land parcel record.", "danger");
+        return;
+      }
+
+      const district = document.getElementById("land-district").value;
+      const mandal = document.getElementById("land-mandal").value.trim();
+      const panchayat = document.getElementById("land-panchayat").value.trim();
+      const village = document.getElementById("land-village").value.trim();
+      const pincode = document.getElementById("land-pincode").value.trim();
+
+      const bankName = document.getElementById("bank-name").value.trim();
+      const branch = document.getElementById("bank-branch").value.trim();
+      const ifsc = document.getElementById("bank-ifsc").value.trim();
+      const centreId = document.getElementById("farmer-centre-select").value;
+
+      const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
+      let farmer = currentFarmerData || farmers[0];
+
+      if (farmer) {
+        farmer.district = district;
+        farmer.mandal = mandal;
+        farmer.panchayat = panchayat;
+        farmer.village = village;
+        farmer.pincode = pincode;
+        farmer.lands = currentLandParcels;
+        farmer.preferredCentreId = centreId;
+        farmer.bank = {
+          bankName,
+          branch,
+          ifsc,
+          accountNumber: accNo
+        };
+
+        const idx = farmers.findIndex(f => f.id === farmer.id);
+        if (idx !== -1) {
+          farmers[idx] = farmer;
+        } else {
+          farmers.push(farmer);
+        }
+        localStorage.setItem("epaddy_farmers", JSON.stringify(farmers));
+      }
+
+      showToast("Land particulars and DBT Bank details updated successfully!", "success", 5000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initFarmerParticularsPage();
+    });
+  </script>
+</body>
+</html>

@@ -4,6 +4,12 @@
  */
 
 function initAdminDashboard() {
+  if (typeof Auth !== "undefined" && Auth.isAuthenticated() && Auth.getRole() === "farmer") {
+    if (typeof showToast === "function") {
+      showToast("Access Restricted: Departmental Authority credentials required.", "warning", 6000);
+    }
+  }
+
   renderAdminKPIs();
   renderProcurementTrendChart();
   renderAdminCentresTable();
@@ -30,15 +36,34 @@ function bindAdminTabs() {
   });
 }
 
-function renderAdminKPIs() {
-  const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
-  const centres = JSON.parse(localStorage.getItem("epaddy_centres") || "[]");
-  const schedules = JSON.parse(localStorage.getItem("epaddy_schedules") || "[]");
-  const grievances = JSON.parse(localStorage.getItem("epaddy_grievances") || "[]");
+async function renderAdminKPIs() {
+  const token = localStorage.getItem("authToken");
 
-  const totalFarmers = 14820 + farmers.length;
-  const todaySchedCount = schedules.filter((s) => s.status === "Scheduled").length;
-  const pendingGrvCount = grievances.filter((g) => g.status !== "Resolved").length;
+  let totalFarmers = 14820;
+  let todaySchedCount = 142;
+  let centresCount = 16;
+  let pendingGrvCount = 3;
+
+  if (token) {
+    try {
+      const apiBase = typeof API_BASE !== "undefined" ? API_BASE : "http://localhost:5000/api";
+      const res = await fetch(`${apiBase}/admin/stats`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.stats) {
+        totalFarmers = 14820 + data.stats.totalFarmers;
+        todaySchedCount = data.stats.todayScheduled || 142;
+        centresCount = data.stats.totalCentres || 16;
+        pendingGrvCount = data.stats.pendingGrievances || 3;
+      }
+    } catch (err) {
+      console.warn("Could not fetch stats from backend:", err);
+    }
+  }
 
   const kpiFarmers = document.getElementById("admin-kpi-farmers");
   const kpiSched = document.getElementById("admin-kpi-scheduled");
@@ -47,7 +72,7 @@ function renderAdminKPIs() {
 
   if (kpiFarmers) kpiFarmers.textContent = totalFarmers.toLocaleString("en-IN");
   if (kpiSched) kpiSched.textContent = todaySchedCount;
-  if (kpiCentres) kpiCentres.textContent = centres.length;
+  if (kpiCentres) kpiCentres.textContent = centresCount;
   if (kpiGrievances) kpiGrievances.textContent = pendingGrvCount;
 }
 

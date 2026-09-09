@@ -284,8 +284,8 @@ function populateReviewSummary() {
   `;
 }
 
-// Final Submit
-function submitFarmerRegistration(event) {
+// Final Submit (Calls /api/farmers/register)
+async function submitFarmerRegistration(event) {
   if (event) event.preventDefault();
 
   const declarationCheck = document.getElementById("reg-declaration-checkbox");
@@ -300,8 +300,8 @@ function submitFarmerRegistration(event) {
   const mobile = document.getElementById("reg-mobile")?.value.trim();
   const gender = document.getElementById("reg-gender")?.value || "Male";
   const age = parseInt(document.getElementById("reg-age")?.value || "35", 10);
-  const krishakBandhu = document.getElementById("reg-krishak-id")?.value.trim() || `KB-2026-${Math.floor(10000 + Math.random() * 90000)}`;
-  const voterId = document.getElementById("reg-voter-id")?.value.trim() || "AP/08/042/991201";
+  const krishakBandhu = document.getElementById("reg-krishak-id")?.value.trim() || undefined;
+  const voterId = document.getElementById("reg-voter-id")?.value.trim() || undefined;
 
   const district = document.getElementById("reg-district")?.value || "Guntur";
   const mandal = document.getElementById("reg-mandal")?.value.trim() || "Tenali";
@@ -315,69 +315,67 @@ function submitFarmerRegistration(event) {
   const ifsc = document.getElementById("reg-ifsc")?.value.trim() || "SBIN0000928";
   const accNo = document.getElementById("reg-account-no")?.value.trim() || "309812454819";
 
-  // Generate unique registration ID
-  const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-  const newRegId = `FMR-AP-2026-${randomSuffix}`;
-
-  const newFarmer = {
-    id: newRegId,
-    name,
-    fatherName,
-    aadhaarMasked: `XXXX-XXXX-${aadhaar.slice(-4)}`,
+  const payload = {
+    fullName: name,
+    guardianName: fatherName,
     aadhaar,
-    mobile,
+    mobileNumber: mobile,
     gender,
     age,
-    krishakBandhuId: krishakBandhu,
+    krishakId: krishakBandhu,
     voterId,
     district,
     mandal,
     panchayat,
     village,
     pincode,
-    status: "Verified",
-    registrationDate: new Date().toISOString().split("T")[0],
-    lands: landRecords,
     preferredCentreId: centreId,
+    lands: landRecords,
     bank: {
       bankName,
       branch,
       ifsc,
-      accountNumberMasked: `XXXXXXXX${accNo.slice(-4)}`,
-      accountNumber: accNo,
-      accountType: "Savings"
-    },
-    procurementSummary: {
-      scheduledQuantity: 0,
-      procuredQuantity: 0,
-      paymentDue: 0,
-      paymentReceived: 0
-    },
-    activeAppointment: null,
-    currentStage: 3
+      accountNumber: accNo
+    }
   };
 
-  const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
-  farmers.unshift(newFarmer);
-  localStorage.setItem("epaddy_farmers", JSON.stringify(farmers));
+  const apiBase = typeof API_BASE !== "undefined" ? API_BASE : "http://localhost:5000/api";
 
-  // Set as logged in user
-  const sessionUser = {
-    id: newFarmer.id,
-    name: newFarmer.name,
-    mobile: newFarmer.mobile,
-    district: newFarmer.district,
-    mandal: newFarmer.mandal,
-    role: "Farmer"
-  };
-  localStorage.setItem("epaddy_current_user", JSON.stringify(sessionUser));
+  try {
+    const res = await fetch(`${apiBase}/farmers/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-  // Show confirmation modal
-  const regIdDisplay = document.getElementById("success-reg-id");
-  if (regIdDisplay) regIdDisplay.textContent = newRegId;
+    const data = await res.json();
 
-  openModal("registration-success-modal");
-  showToast(`Registration Successful! Registration ID: ${newRegId}`, "success", 6000);
+    if (!res.ok || !data.success) {
+      showToast(data.message || "Registration failed. Please check your information.", "danger");
+      return;
+    }
+
+    // Save token and session
+    if (data.token) {
+      localStorage.setItem("authToken", data.token);
+    }
+    if (data.user) {
+      localStorage.setItem("epaddy_current_user", JSON.stringify(data.user));
+      localStorage.setItem("authUser", JSON.stringify(data.user));
+      localStorage.setItem("userRole", "farmer");
+      localStorage.setItem("isAuthenticated", "true");
+    }
+
+    // Show confirmation modal
+    const regIdDisplay = document.getElementById("success-reg-id");
+    if (regIdDisplay) regIdDisplay.textContent = data.registrationNumber;
+
+    openModal("registration-success-modal");
+    showToast(`Registration Successful! Registration ID: ${data.registrationNumber}`, "success", 6000);
+  } catch (error) {
+    console.error("Farmer Registration Network Error:", error);
+    showToast("Unable to submit registration to backend server. Please verify the server is running.", "danger");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

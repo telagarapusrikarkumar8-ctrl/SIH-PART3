@@ -3,87 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Farmer Registration - Online Paddy Procurement System, Department of Civil Supplies. 7-step enrollment with land parcel records and centre allotment.">
+  <meta name="description" content="Farmer Quick Registration - Online Paddy Procurement System, Department of Civil Supplies, Government of Andhra Pradesh. Aadhaar & Mobile OTP verification for new farmers.">
   <title>Farmer Registration | Online Paddy Procurement System</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/government.css">
   <link rel="stylesheet" href="css/responsive.css">
   <style>
-    .stepper-nav-reg {
+    .captcha-container {
       display: flex;
-      justify-content: space-between;
-      list-style: none;
-      padding: 0;
-      margin: 20px 0 30px;
-      border-bottom: 2px solid var(--border-color);
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .stepper-item-reg {
-      flex: 1;
-      min-width: 120px;
-      padding: 10px 8px;
-      text-align: center;
-      position: relative;
-      cursor: default;
-    }
-    .stepper-item-reg .step-num {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--bg-alt);
-      border: 2px solid var(--border-color);
-      color: var(--text-muted);
-      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.8rem;
-      margin-bottom: 4px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
-    .stepper-item-reg .step-title {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-    .stepper-item-reg.active {
-      border-bottom: 3px solid var(--gov-navy-primary);
-    }
-    .stepper-item-reg.active .step-num {
-      background: var(--gov-navy-primary);
-      border-color: var(--gov-navy-primary);
-      color: #ffffff;
-    }
-    .stepper-item-reg.active .step-title {
-      color: var(--gov-navy-primary);
-      font-weight: 700;
-    }
-    .stepper-item-reg.completed .step-num {
-      background: var(--agri-green-primary);
-      border-color: var(--agri-green-primary);
-      color: #ffffff;
-    }
-    .stepper-item-reg.completed .step-title {
-      color: var(--agri-green-dark);
-    }
-    .file-upload-box {
-      border: 2px dashed var(--border-color);
-      padding: 16px;
-      text-align: center;
-      background: var(--bg-main);
+    .captcha-display {
+      background: #e2e8f0;
+      padding: 8px 16px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 5px;
+      color: #0c2340;
       border-radius: var(--radius-sm);
+      border: 1px dashed #94a3b8;
+      user-select: none;
+    }
+    .otp-grid {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .otp-box {
+      width: 44px;
+      height: 50px;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-sm);
+    }
+    .otp-box:focus {
+      border-color: var(--gov-navy-primary);
+      outline: none;
     }
   </style>
 </head>
-<body>
+<body class="gov-auth-body">
   <!-- Accessible Skip Link -->
   <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
 
   <!-- Top Tricolor Stripe -->
   <div class="gov-top-tricolor" aria-hidden="true"></div>
 
-  <!-- Government Top Admin Strip -->
+  <!-- Government Top Administration Strip -->
   <div class="gov-top-bar">
     <div class="container gov-top-bar-content">
       <div class="gov-entity-links">
@@ -96,157 +69,338 @@
         <button type="button" id="btn-font-normal" class="a11y-btn" aria-label="Reset Text Size">A</button>
         <button type="button" id="btn-font-large" class="a11y-btn" aria-label="Increase Text Size">A+</button>
         <button type="button" id="btn-contrast-toggle" class="contrast-toggle-btn" aria-label="Toggle High Contrast">Contrast</button>
-        <div class="lang-select-wrapper">
-          <label for="header-lang-select" class="sr-only" style="position: absolute; left: -9999px;">Language</label>
-          <select id="header-lang-select" class="lang-select" aria-label="Select Language">
-            <option value="en">English</option>
-            <option value="te">తెలుగు (Telugu)</option>
-          </select>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- Department Branding Header -->
-  <header class="gov-branding-header">
-    <div class="container gov-branding-content">
-      <a href="index.html" class="gov-branding-left">
+  <!-- Simplified Government Auth Header (NO NAVBAR) -->
+  <header class="gov-auth-header">
+    <div class="container gov-auth-header-content">
+      <a href="index.html" class="gov-auth-branding">
         <img src="assets/images/national-emblem.svg" alt="National Emblem of India" class="gov-emblem-img">
-        <div class="gov-title-group">
-          <span class="gov-state-title" data-i18n="gov.state">Government of Andhra Pradesh</span>
-          <span class="gov-dept-title" data-i18n="gov.dept">Department of Civil Supplies</span>
-          <span class="gov-portal-title" data-i18n="gov.portal">Online Paddy Procurement System</span>
+        <div class="gov-auth-title-group">
+          <span class="gov-auth-state-title" data-i18n="gov.state">Government of Andhra Pradesh</span>
+          <span class="gov-auth-dept-title" data-i18n="gov.dept">Department of Civil Supplies</span>
+          <span class="gov-auth-portal-title" data-i18n="gov.portal">Online Paddy Procurement System</span>
         </div>
       </a>
-      <div class="gov-branding-right">
-        <img src="assets/images/state-logo.svg" alt="Civil Supplies Seal" class="gov-state-logo-img">
+      <div class="gov-auth-header-right">
+        <span class="auth-secure-badge" style="background:#f0fdf4; color:#15803d; border-color:#bbf7d0;">
+          <span>🌾</span> Official Farmer Enrollment
+        </span>
+        <a href="index.html" class="auth-back-link">
+          ← Return to Main Portal
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Navigation Bar -->
-  <nav class="gov-nav-bar" aria-label="Main Navigation">
-    <div class="container gov-nav-container">
-      <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="main-nav-menu" aria-label="Toggle Navigation Menu">
-        ☰ Menu
-      </button>
-      <ul id="main-nav-menu" class="gov-nav-menu">
-        <li class="gov-nav-item"><a href="index.html" class="gov-nav-link" data-i18n="nav.home">Home</a></li>
-        <li class="gov-nav-item"><a href="farmer-registration.html" class="gov-nav-link active" data-i18n="nav.farmers">Farmers</a></li>
-        <li class="gov-nav-item"><a href="procurement-centres.html" class="gov-nav-link" data-i18n="nav.centres">Procurement Centres</a></li>
-        <li class="gov-nav-item"><a href="slot-booking.html" class="gov-nav-link" data-i18n="nav.schedule">Schedule</a></li>
-        <li class="gov-nav-item"><a href="procurement-status.html" class="gov-nav-link" data-i18n="nav.procurementStatus">Procurement Status</a></li>
-        <li class="gov-nav-item"><a href="payment-status.html" class="gov-nav-link" data-i18n="nav.paymentStatus">Payment Status</a></li>
-        <li class="gov-nav-item"><a href="grievance.html" class="gov-nav-link" data-i18n="nav.grievance">Grievance</a></li>
-      </ul>
-      <div class="gov-nav-right-actions">
-        <a href="farmer-login.html" class="btn btn-sm btn-secondary nav-login-btn" data-i18n="nav.farmerLogin">Farmer Login</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Breadcrumbs -->
-  <div class="breadcrumb-wrapper">
+  <!-- Main Content Area: Simplified Aadhaar & Phone Registration Form -->
+  <main id="main-content" class="gov-auth-main">
     <div class="container">
-      <ul class="breadcrumbs">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="farmer-registration.html">Farmers</a></li>
-        <li class="current">Farmer Registration</li>
-      </ul>
-    </div>
-  </div>
+      <div class="gov-auth-container">
+        
+        <!-- Registration Card -->
+        <div class="gov-auth-card card-register">
+          <div class="gov-auth-card-header" style="background: #f0fdf4; border-bottom-color: #bbf7d0;">
+            <div>
+              <h2 style="color: #14532d;">Farmer Registration</h2>
+              <span style="font-size: 0.8rem; color: #15803d;">
+                Quick Aadhaar &amp; Mobile Verification (KMS 2026-27)
+              </span>
+            </div>
+            <span class="badge badge-success">Step 1: Identity &amp; OTP</span>
+          </div>
 
-  <!-- Main Content -->
-  <main id="main-content" style="padding: 30px 0;">
-    <div class="container">
-      <div class="card" style="box-shadow: var(--shadow-card); border-top: 4px solid var(--agri-green-primary);">
-        <div class="card-header d-flex justify-between align-center">
-          <div>
-            <h2 style="font-size: 1.25rem; margin-bottom: 2px;">Farmer Registration Form (Kharif Season 2026)</h2>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">
-              Statutory Online Application for Paddy Procurement &amp; MSP Direct Benefit Transfer
-            </span>
+          <div class="gov-auth-card-body">
+
+            <!-- Official Notice -->
+            <div class="alert alert-info mb-2" style="font-size: 0.85rem;">
+              <strong>Notice:</strong> Please provide your Aadhaar number and linked mobile number. A 6-digit One Time Password (OTP) will be sent to complete identity verification.
+            </div>
+
+            <form id="farmer-quick-reg-form" onsubmit="handleQuickRegistrationSubmit(event)">
+              
+              <div class="form-group">
+                <label for="reg-farmer-name" class="form-label">Full Name (as per Aadhaar) <span class="required">*</span></label>
+                <input type="text" id="reg-farmer-name" class="form-control" placeholder="e.g. K. Nageswara Rao" required>
+                <span class="form-hint">Enter your full legal name as printed on your UIDAI Aadhaar card.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-aadhaar" class="form-label">12-Digit Aadhaar Number <span class="required">*</span></label>
+                <input type="password" id="reg-aadhaar" class="form-control" placeholder="e.g. 234567891234" maxlength="12" required>
+                <span class="form-hint">Used for statutory DBT seeding &amp; Direct Benefit Transfer.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-mobile" class="form-label">Aadhaar-Linked Mobile Number <span class="required">*</span></label>
+                <input type="tel" id="reg-mobile" class="form-control" placeholder="e.g. 9849012345" maxlength="10" required>
+                <span class="form-hint">One Time Password (OTP) will be dispatched to this number.</span>
+              </div>
+
+              <!-- Security Captcha -->
+              <div class="form-group">
+                <label for="reg-captcha-input" class="form-label">Security Verification (Captcha) <span class="required">*</span></label>
+                <div class="captcha-container">
+                  <div id="captcha-code" class="captcha-display" data-code="8N4K2">8N4K2</div>
+                  <button type="button" id="btn-refresh-captcha" class="btn btn-sm btn-secondary" title="Refresh Captcha">
+                    🔄 Refresh
+                  </button>
+                </div>
+                <input type="text" id="reg-captcha-input" class="form-control" placeholder="Enter characters shown above" style="text-transform: uppercase;" required>
+              </div>
+
+              <!-- Statutory Acceptance -->
+              <div class="form-group mt-2">
+                <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer; font-size: 0.85rem; color: var(--text-dark);">
+                  <input type="checkbox" id="reg-declaration" checked style="margin-top: 3px;" required>
+                  <span>
+                    I give voluntary consent to authenticate my Aadhaar credentials for e-Paddy procurement registration and receive transaction SMS.
+                  </span>
+                </label>
+              </div>
+
+              <div class="mt-3">
+                <button type="submit" class="btn btn-success btn-block btn-lg">
+                  Generate OTP &amp; Complete Registration
+                </button>
+              </div>
+
+            </form>
+
+            <div class="text-center mt-3" style="font-size: 0.88rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 16px;">
+              Already registered? <a href="farmer-login.html" style="font-weight: 700; color: var(--gov-navy-primary);">Sign in to Farmer Portal</a>
+            </div>
+
           </div>
         </div>
-        <div class="card-body">
 
-          <!-- Wizard Step Navigation Indicators -->
-          <ol class="stepper-nav-reg">
-            <li class="stepper-item-reg active" data-step-indicator="1">
-              <span class="step-num">1</span>
-              <span class="step-title">Personal Info</span>
-            </li>
-          </ol>
+      </div>
+    </div>
+  </main>
 
-          <!-- Step 1: Personal Details -->
-          <div class="reg-step-container" data-step="1">
-            <h3 style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 18px;">
-              Step 1: Personal Particulars of Farmer
-            </h3>
-            <div class="grid-3">
-              <div class="form-group">
-                <label for="reg-farmer-name" class="form-label">Farmer Full Name (as per Aadhaar) <span class="required">*</span></label>
-                <input type="text" id="reg-farmer-name" class="form-control" placeholder="e.g. Ramesh Kumar" value="K. Nageswara Rao">
-              </div>
-              <div class="form-group">
-                <label for="reg-father-name" class="form-label">Father / Mother / Spouse Name <span class="required">*</span></label>
-                <input type="text" id="reg-father-name" class="form-control" placeholder="e.g. Venkata Narayana" value="K. Subrahmanyam">
-              </div>
-              <div class="form-group">
-                <label for="reg-aadhaar" class="form-label">Aadhaar Number (12 Digits) <span class="required">*</span></label>
-                <input type="password" id="reg-aadhaar" class="form-control" placeholder="12-digit UIDAI number" maxlength="12" value="234567891234">
-                <span class="form-hint">Used for DBT Aadhaar Payment Bridge System (APBS).</span>
-              </div>
-              <div class="form-group">
-                <label for="reg-mobile" class="form-label">Mobile Number (Linked with Bank/Aadhaar) <span class="required">*</span></label>
-                <input type="tel" id="reg-mobile" class="form-control" placeholder="10-digit mobile" maxlength="10" value="9849012345">
-              </div>
-              <div class="form-group">
-                <label for="reg-gender" class="form-label">Gender <span class="required">*</span></label>
-                <select id="reg-gender" class="form-control">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Transgender">Transgender</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="reg-age" class="form-label">Age (Years) <span class="required">*</span></label>
-                <input type="number" id="reg-age" class="form-control" min="18" max="100" value="48">
-              </div>
-              <div class="form-group">
-                <label for="reg-krishak-id" class="form-label">Krishak Bandhu / State Farmer ID</label>
-                <input type="text" id="reg-krishak-id" class="form-control" placeholder="e.g. KB-2026-90142" value="KB-2026-94102">
-              </div>
-              <div class="form-group">
-                <label for="reg-voter-id" class="form-label">Voter ID (EPIC Number)</label>
-                <input type="text" id="reg-voter-id" class="form-control" placeholder="e.g. AP/08/042/189201" value="AP/08/042/338901">
-              </div>
-            </div>
-          </div class="card-footer mt-3"style="background: transparent; padding:0;">
-          <button type="submit" class="btn btn-primary">
-          Submit Registration
+  <!-- Registration OTP Modal -->
+  <div id="reg-otp-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="reg-otp-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header" style="background: var(--agri-green-primary); color: #ffffff;">
+        <h3 id="reg-otp-modal-title" style="color: #ffffff; margin: 0;">Verify Mobile OTP</h3>
+        <button type="button" class="modal-close" onclick="closeModal('reg-otp-modal')" aria-label="Close Modal" style="color: #ffffff;">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="text-muted" style="margin-bottom: 8px;">
+          An automated 6-digit registration code has been dispatched to your mobile number:
+        </p>
+        <strong id="reg-otp-phone-display" style="font-size: 1.1rem; color: var(--gov-navy-primary);">XXXX-XX-2345</strong>
+
+        <div class="otp-grid">
+          <input type="text" class="otp-box" maxlength="1" autofocus>
+          <input type="text" class="otp-box" maxlength="1">
+          <input type="text" class="otp-box" maxlength="1">
+          <input type="text" class="otp-box" maxlength="1">
+          <input type="text" class="otp-box" maxlength="1">
+          <input type="text" class="otp-box" maxlength="1">
+        </div>
+
+        <div style="font-size: 0.85rem; color: var(--text-muted);">
+          Time remaining: <strong id="otp-timer-count" style="color: #dc2626;">60s</strong>
+        </div>
+
+        <div class="mt-2">
+          <button type="button" id="btn-resend-otp" class="btn btn-sm btn-secondary" onclick="startOtpTimer()" disabled>
+            Resend OTP
           </button>
         </div>
       </div>
-    </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('reg-otp-modal')">Cancel</button>
+        <button type="button" class="btn btn-success" onclick="verifyRegistrationOtp()">Verify OTP &amp; Register</button>
+      </div>
+    </div>
   </div>
-</div>
-</div>
-</main>
 
-  <!-- Government Footer -->
-  <footer class="gov-footer">
-    <div class="container gov-footer-bottom">
-      <p style="margin: 0; font-size: 0.76rem;">
+  <!-- Registration Success Modal -->
+  <div id="registration-success-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="reg-success-title">
+    <div class="modal-dialog">
+      <div class="modal-header" style="background: #15803d; color: #ffffff;">
+        <h3 id="reg-success-title" style="color: #ffffff; margin: 0;">🎉 Registration Successful</h3>
+        <button type="button" class="modal-close" onclick="closeModal('registration-success-modal')" aria-label="Close dialog" style="color: #ffffff;">&times;</button>
+      </div>
+      <div class="modal-body text-center" style="padding: 24px;">
+        <div style="font-size: 2.8rem; margin-bottom: 12px;">✅</div>
+        <h4 style="font-size: 1.25rem; color: #15803d; margin-bottom: 8px;">
+          Farmer Profile Created &amp; Verified!
+        </h4>
+        <p class="text-muted" style="margin-bottom: 16px;">
+          Your official Permanent Farmer Registration Number has been generated:
+        </p>
+        <div style="background: #f0fdf4; border: 2px dashed #16a34a; padding: 12px; border-radius: 6px; font-size: 1.35rem; font-weight: 800; font-family: monospace; color: #166534; margin-bottom: 16px;">
+          <span id="success-reg-id">FMR-AP-2026-9182</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-dark); margin-bottom: 8px;">
+          Please update your <strong>Land Details, Location, and Bank Account</strong> to enable slot booking and MSP disbursements.
+        </p>
+      </div>
+      <div class="modal-footer" style="justify-content: center; gap: 12px;">
+        <a href="farmers.html" class="btn btn-success">
+          Complete Land &amp; Bank Details →
+        </a>
+        <a href="farmer-dashboard.html" class="btn btn-secondary">
+          Go to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simplified Government Auth Footer -->
+  <footer class="gov-auth-footer">
+    <div class="container gov-auth-footer-content">
+      <p>
         Website Content Managed by <strong>Department of Civil Supplies, Government of Andhra Pradesh</strong>.<br>
         Designed, Developed and Hosted by <strong>National Informatics Centre (NIC)</strong>.
       </p>
+      <div style="font-size: 0.72rem; color: #94a3b8;">
+        🔒 256-Bit SSL Encrypted Official Government Session
+      </div>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="js/language.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/registration.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let pendingQuickReg = null;
+
+    function handleQuickRegistrationSubmit(event) {
+      if (event) event.preventDefault();
+
+      const name = document.getElementById("reg-farmer-name").value.trim();
+      const aadhaar = document.getElementById("reg-aadhaar").value.trim();
+      const mobile = document.getElementById("reg-mobile").value.trim();
+      const captchaInput = document.getElementById("reg-captcha-input").value.trim();
+      const actualCaptcha = document.getElementById("captcha-code")?.getAttribute("data-code");
+
+      if (aadhaar.length !== 12 || isNaN(aadhaar)) {
+        showToast("Please enter a valid 12-digit Aadhaar Number.", "danger");
+        return;
+      }
+
+      if (mobile.length !== 10 || isNaN(mobile)) {
+        showToast("Please enter a valid 10-digit Mobile Number.", "danger");
+        return;
+      }
+
+      if (captchaInput.toUpperCase() !== actualCaptcha?.toUpperCase()) {
+        showToast("Invalid security Captcha. Please enter the code shown.", "danger");
+        refreshCaptcha();
+        return;
+      }
+
+      pendingQuickReg = {
+        name,
+        aadhaar,
+        mobile
+      };
+
+      // Set phone in OTP modal & open
+      const phoneElem = document.getElementById("reg-otp-phone-display");
+      if (phoneElem) {
+        phoneElem.textContent = `XXXX-XX-${mobile.slice(-4)}`;
+      }
+
+      startOtpTimer();
+      openModal("reg-otp-modal");
+      showToast("OTP sent to registered mobile number!", "success");
+    }
+
+    async function verifyRegistrationOtp() {
+      const otpInputs = document.querySelectorAll(".otp-box");
+      let enteredOtp = "";
+      otpInputs.forEach((input) => (enteredOtp += input.value.trim()));
+
+      if (enteredOtp.length < 6) {
+        showToast("Please enter the complete 6-digit OTP.", "danger");
+        return;
+      }
+
+      if (enteredOtp.length === 6 && pendingQuickReg) {
+        clearInterval(otpTimerInterval);
+
+        const payload = {
+          fullName: pendingQuickReg.name,
+          guardianName: "K. Subrahmanyam",
+          aadhaar: pendingQuickReg.aadhaar,
+          mobileNumber: pendingQuickReg.mobile,
+          district: "Guntur",
+          mandal: "Tenali",
+          village: "Angalakuduru",
+          panchayat: "Angalakuduru",
+          pincode: "522211",
+          lands: [
+            {
+              district: "Guntur",
+              village: "Angalakuduru",
+              surveyNo: "128/1A",
+              dagNo: "34",
+              areaAcres: 3.5,
+              ownership: "Self Owned",
+              status: "Verified (e-Record)"
+            }
+          ],
+          preferredCentreId: "PPC-GNT-001",
+          bank: {
+            bankName: "State Bank of India",
+            branch: "Tenali Main Branch",
+            accountNumber: "309812454819",
+            ifsc: "SBIN0000928"
+          }
+        };
+
+        const apiBase = typeof API_BASE !== "undefined" ? API_BASE : "http://localhost:5000/api";
+
+        try {
+          const res = await fetch(`${apiBase}/farmers/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            showToast(data.message || "Registration failed. Please check details.", "danger");
+            return;
+          }
+
+          closeModal("reg-otp-modal");
+
+          // Save token & session user
+          if (data.token) localStorage.setItem("authToken", data.token);
+          if (data.user) {
+            localStorage.setItem("epaddy_current_user", JSON.stringify(data.user));
+            localStorage.setItem("authUser", JSON.stringify(data.user));
+            localStorage.setItem("userRole", "farmer");
+            localStorage.setItem("isAuthenticated", "true");
+          }
+
+          const idDisplay = document.getElementById("success-reg-id");
+          if (idDisplay) idDisplay.textContent = data.registrationNumber;
+
+          openModal("registration-success-modal");
+          showToast(`Registration verified successfully! Farmer ID: ${data.registrationNumber}`, "success", 6000);
+        } catch (error) {
+          console.error("Farmer Registration Error:", error);
+          showToast("Network error connecting to backend server.", "danger");
+        }
+      } else {
+        showToast("Incorrect OTP entered. Please try again.", "danger");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      refreshCaptcha();
+    });
+  </script>
 </body>
 </html>

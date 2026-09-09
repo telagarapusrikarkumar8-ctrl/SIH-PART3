@@ -64,8 +64,8 @@
         ☰ Menu
       </button>
       <ul id="main-nav-menu" class="gov-nav-menu">
-        <li class="gov-nav-item"><a href="farmer-dashboard.html" class="gov-nav-link">Dashboard</a></li>
-        <li class="gov-nav-item"><a href="farmer-profile.html" class="gov-nav-link active">My Profile</a></li>
+        <li class="gov-nav-item"><a href="index.html" class="gov-nav-link" data-i18n="nav.home">Home</a></li>
+        <li class="gov-nav-item"><a href="farmers.html" class="gov-nav-link" data-i18n="nav.farmers">Farmers</a></li>
         <li class="gov-nav-item"><a href="procurement-centres.html" class="gov-nav-link" data-i18n="nav.centres">Procurement Centres</a></li>
         <li class="gov-nav-item"><a href="slot-booking.html" class="gov-nav-link" data-i18n="nav.schedule">Schedule</a></li>
         <li class="gov-nav-item"><a href="procurement-status.html" class="gov-nav-link" data-i18n="nav.procurementStatus">Procurement Status</a></li>
@@ -73,7 +73,8 @@
         <li class="gov-nav-item"><a href="grievance.html" class="gov-nav-link" data-i18n="nav.grievance">Grievance</a></li>
       </ul>
       <div class="gov-nav-right-actions">
-        <a href="farmer-dashboard.html" class="btn btn-sm btn-secondary">Back to Dashboard</a>
+        <a href="farmer-login.html" class="btn btn-sm btn-primary">Farmer Login</a>
+        <a href="official-login.html" class="btn btn-sm btn-secondary">Official Login</a>
       </div>
     </div>
   </nav>
@@ -253,19 +254,61 @@
 
   <!-- Scripts -->
   <script src="js/language.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
   <script>
     let currentProfile = null;
     let isEditing = false;
 
-    function loadProfile() {
-      const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
+    async function loadProfile() {
       const currentUser = JSON.parse(localStorage.getItem("epaddy_current_user") || "null");
+      const token = localStorage.getItem("authToken");
 
-      if (currentUser && currentUser.role === "Farmer") {
-        currentProfile = farmers.find((f) => f.id === currentUser.id) || farmers[0];
-      } else if (farmers.length > 0) {
-        currentProfile = farmers[0];
+      if (token) {
+        try {
+          const apiBase = typeof API_BASE !== "undefined" ? API_BASE : "http://localhost:5000/api";
+          const res = await fetch(`${apiBase}/farmers/me`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const data = await res.json();
+          if (res.ok && data.success && data.farmer) {
+            currentProfile = {
+              ...data.farmer,
+              id: data.farmer.registrationNumber,
+              name: data.farmer.fullName,
+              mobile: data.farmer.mobileNumber
+            };
+          }
+        } catch (err) {
+          console.warn("Could not fetch profile from backend, using session cache:", err);
+        }
+      }
+
+      if (!currentProfile && currentUser) {
+        currentProfile = {
+          id: currentUser.id || currentUser.registrationNumber,
+          name: currentUser.name || currentUser.fullName,
+          mobile: currentUser.mobile || currentUser.mobileNumber,
+          district: currentUser.district || "Guntur",
+          mandal: currentUser.mandal || "Tenali",
+          village: "Angalakuduru",
+          panchayat: "Angalakuduru",
+          pincode: "522211",
+          gender: "Male",
+          age: 46,
+          status: "Verified",
+          aadhaarMasked: "XXXX-XXXX-8921",
+          bank: {
+            bankName: "State Bank of India",
+            branch: "Tenali Main Branch",
+            ifsc: "SBIN0000928",
+            accountNumberMasked: "XXXXXXXX4819",
+            accountType: "Savings"
+          }
+        };
       }
 
       if (!currentProfile) return;
@@ -275,9 +318,9 @@
 
       // Fill personal fields
       document.getElementById("prof-farmer-name").value = currentProfile.name || "";
-      document.getElementById("prof-father-name").value = currentProfile.fatherName || "";
+      document.getElementById("prof-father-name").value = currentProfile.guardianName || currentProfile.fatherName || "";
       document.getElementById("prof-aadhaar").value = currentProfile.aadhaarMasked || "XXXX-XXXX-8921";
-      document.getElementById("prof-mobile").value = currentProfile.mobile || "";
+      document.getElementById("prof-mobile").value = currentProfile.mobile || currentProfile.mobileNumber || "";
       document.getElementById("prof-gender").value = currentProfile.gender || "Male";
       document.getElementById("prof-age").value = currentProfile.age || "46";
 
@@ -293,7 +336,7 @@
         document.getElementById("prof-bank-name").value = currentProfile.bank.bankName || "";
         document.getElementById("prof-branch").value = currentProfile.bank.branch || "";
         document.getElementById("prof-ifsc").value = currentProfile.bank.ifsc || "";
-        document.getElementById("prof-account-no").value = currentProfile.bank.accountNumberMasked || "";
+        document.getElementById("prof-account-no").value = currentProfile.bank.accountNumberMasked || currentProfile.bank.accountNumber || "";
         document.getElementById("prof-account-type").value = currentProfile.bank.accountType || "Savings";
       }
 
@@ -350,26 +393,44 @@
       }
     }
 
-    function saveProfileChanges() {
+    async function saveProfileChanges() {
       if (!currentProfile) return;
 
-      currentProfile.fatherName = document.getElementById("prof-father-name")?.value.trim() || currentProfile.fatherName;
-      currentProfile.mobile = document.getElementById("prof-mobile")?.value.trim() || currentProfile.mobile;
-      currentProfile.age = parseInt(document.getElementById("prof-age")?.value, 10) || currentProfile.age;
-      currentProfile.panchayat = document.getElementById("prof-panchayat")?.value.trim() || currentProfile.panchayat;
-      currentProfile.village = document.getElementById("prof-village")?.value.trim() || currentProfile.village;
-      currentProfile.pincode = document.getElementById("prof-pincode")?.value.trim() || currentProfile.pincode;
+      const token = localStorage.getItem("authToken");
+      const updateData = {
+        guardianName: document.getElementById("prof-father-name")?.value.trim() || currentProfile.guardianName,
+        panchayat: document.getElementById("prof-panchayat")?.value.trim() || currentProfile.panchayat,
+        village: document.getElementById("prof-village")?.value.trim() || currentProfile.village,
+        pincode: document.getElementById("prof-pincode")?.value.trim() || currentProfile.pincode,
+        bank: {
+          ...currentProfile.bank,
+          branch: document.getElementById("prof-branch")?.value.trim() || currentProfile.bank?.branch
+        }
+      };
 
-      if (currentProfile.bank) {
-        currentProfile.bank.branch = document.getElementById("prof-branch")?.value.trim() || currentProfile.bank.branch;
-      }
-
-      // Save to localStorage
-      const farmers = JSON.parse(localStorage.getItem("epaddy_farmers") || "[]");
-      const idx = farmers.findIndex((f) => f.id === currentProfile.id);
-      if (idx !== -1) {
-        farmers[idx] = currentProfile;
-        localStorage.setItem("epaddy_farmers", JSON.stringify(farmers));
+      if (token) {
+        try {
+          const apiBase = typeof API_BASE !== "undefined" ? API_BASE : "http://localhost:5000/api";
+          const res = await fetch(`${apiBase}/farmers/me`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(updateData)
+          });
+          const data = await res.json();
+          if (res.ok && data.success && data.farmer) {
+            currentProfile = {
+              ...data.farmer,
+              id: data.farmer.registrationNumber,
+              name: data.farmer.fullName,
+              mobile: data.farmer.mobileNumber
+            };
+          }
+        } catch (err) {
+          console.error("Failed to save profile updates to backend:", err);
+        }
       }
 
       toggleEditProfile();
